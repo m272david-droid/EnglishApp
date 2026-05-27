@@ -2,7 +2,40 @@
 
 > **Portfolio prototype** — An instructional-design and EdTech demo built for Israeli high school students preparing for the English Bagrut Module E vocabulary exam.
 
-**Live demo:** `[Vercel link — add after deployment]`
+**Live demo:** `https://english-app-liard-one.vercel.app/`
+
+---
+
+## Demo Preview
+
+![Magic E Demo](./public/MagicEDemoGif.gif)
+
+---
+
+---
+
+## Screenshots
+
+### Dashboard
+![Dashboard](./public/screenshots/DashboardScreenshot.jpg)
+
+### Flashcard Session
+![Flashcard](./public/screenshots/ReverseRecallScreenshot.jpg)
+
+### Exam Mode
+![Exam Mode](./public/screenshots/ExamModeQScreenshot.jpg)
+
+### Flashcard Types Explanation
+![Flashcard Types](./public/screenshots/HowItWorksScreenshot.jpg)
+
+---
+## Highlights
+
+- 4,100+ Bagrut vocabulary words
+- Spaced repetition learning flow
+- Adaptive flashcard modes
+- Exam-style Module E simulation
+- Mobile-first RTL Hebrew UI
 
 ---
 
@@ -57,7 +90,7 @@ Card type is determined automatically by how many times a student has seen a wor
 | **Reverse** | 4–6 times | Reverse recall: definition shown, student recalls the word — tests deeper encoding |
 | **Exam** | 7–10 times | Context-gap format: word masked in an example sentence, Hebrew hidden by default — closest to actual exam conditions |
 
-This progression mirrors desirable difficulty theory: support is gradually withdrawn as familiarity increases, pushing students toward the retrieval effort that produces durable memory.
+The goal is to gradually reduce support as students become more familiar with a word, encouraging stronger recall over time.
 
 ### Session Composition
 
