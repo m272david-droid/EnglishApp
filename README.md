@@ -17,16 +17,16 @@
 ## Screenshots
 
 ### Dashboard
-![Dashboard](./public/screenshots/DashboardScreenshot.jpg)
+![Dashboard](./public/screenshots/DashboardScreenshot.JPG)
 
 ### Flashcard Session
-![Flashcard](./public/screenshots/ReverseRecallScreenshot.jpg)
+![Flashcard](./public/screenshots/ReverseRecallScreenshot.JPG)
 
 ### Exam Mode
-![Exam Mode](./public/screenshots/ExamModeQScreenshot.jpg)
+![Exam Mode](./public/screenshots/ExamModeQScreenshot.JPG)
 
 ### Flashcard Types Explanation
-![Flashcard Types](./public/screenshots/HowItWorksScreenshot.jpg)
+![Flashcard Types](./public/screenshots/HowItWorksScreenshot.JPG)
 
 ---
 ## Highlights
