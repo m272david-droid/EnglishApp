@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find . -type f -name *.json)",
+      "Bash(jq .[0:3] c:/Users/97254/Desktop/EnglishApp/src/data/model_e_dataset_final_with_hebrew.json)",
+      "Bash(npm install:*)",
+      "Bash(node scripts/enrich-vocabulary.mjs)"
+    ]
+  }
+}

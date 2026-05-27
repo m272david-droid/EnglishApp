@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@layer theme {
+  :root {
+    --color-primary: #FF6B35;
+    --color-primary-dark: #E55A2B;
+    --color-success: #10B981;
+    --color-danger: #EF4444;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-white text-gray-900;
+  }
+  
+  /* RTL support for Hebrew */
+  [dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+  }
+  
+  [dir="ltr"] {
+    direction: ltr;
+    text-align: left;
+  }
+}
+
+/* Custom color utilities */
+@layer utilities {
+  .text-primary {
+    color: var(--color-primary);
+  }
+  
+  .bg-success {
+    background-color: var(--color-success);
+  }
+  
+  .bg-danger {
+    background-color: var(--color-danger);
+  }
+}
