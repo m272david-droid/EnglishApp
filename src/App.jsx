@@ -413,6 +413,10 @@ function App() {
     onBackToDashboard={goBackToDashboard}
   />
 )}
+      <footer className="text-center text-sm text-gray-400 mt-8 mb-2">
+        Built by David Millstein • 2026
+      </footer>
+      
       </div>
     </div>
   );
