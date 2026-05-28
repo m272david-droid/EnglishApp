@@ -21,6 +21,14 @@ import './App.css';
 
 const DAILY_GOAL = 10;
 
+function AppCredit() {
+  return (
+    <footer className="fixed bottom-2 left-0 right-0 text-center text-xs text-gray-400 opacity-70 pointer-events-none z-50">
+      Built by David Millstein • 2026
+    </footer>
+  );
+}
+
 function App() {
   const [allWords, setAllWords] = useState([]);
   const [sessionQueue, setSessionQueue] = useState([]);
@@ -264,56 +272,49 @@ function App() {
   const goToExamMode = useCallback(() => setShowExamMode(true), []);
   const goBackFromExamMode = useCallback(() => setShowExamMode(false), []);
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center" dir="rtl">
-        <div className="text-center">
-          <p className="text-gray-600">טוען...</p>
-        </div>
-      </div>
-    );
-  }
   const currentPosition = wordsProcessedInBatch + 1;
   const today = getTodaySummary(DAILY_GOAL);
   const rolling7 = getRollingAccuracy(7);
   const streak = getStreak();
 
-  if (showExamMode) {
-    return (
-      <ExamMode
-        words={allWords}
-        onBack={goBackFromExamMode}
-      />
-    );
-  }
+  const renderScreen = () => {
+    if (isLoading) {
+      return (
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center" dir="rtl">
+          <div className="text-center">
+            <p className="text-gray-600">טוען...</p>
+          </div>
+        </div>
+      );
+    }
 
-  if (showWordsList) {
-    return (
-      <WordsList
-        words={allWords}
-        onBack={goBackFromWordsList}
-      />
-    );
-  }
+    if (showExamMode) {
+      return <ExamMode words={allWords} onBack={goBackFromExamMode} />;
+    }
 
-  if (showDashboard) {
-    return (
-      <Dashboard
-        today={today}
-        rolling7={rolling7}
-        streak={streak}
-        onStart={startSessionFromDashboard}
-        onViewWords={goToWordsList}
-        onStartExam={goToExamMode}
-        words={allWords}
-      />
-    );
-  }
+    if (showWordsList) {
+      return <WordsList words={allWords} onBack={goBackFromWordsList} />;
+    }
+
+    if (showDashboard) {
+      return (
+        <Dashboard
+          today={today}
+          rolling7={rolling7}
+          streak={streak}
+          onStart={startSessionFromDashboard}
+          onViewWords={goToWordsList}
+          onStartExam={goToExamMode}
+          words={allWords}
+        />
+      );
+    }
+
  /* // Session complete screen - only show when explicitly finished
   if (isSessionFinished && !currentWord && sessionQueue.length === 0) {
     const totalInSession = sessionStats.completed;
     const wordsAvailable = getSessionWords(allWords, 10).length;
-    
+
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center py-4 px-4" dir="rtl">
         <div className="w-full max-w-md text-center">
@@ -337,7 +338,7 @@ function App() {
             </div>
           </div>
           <p className="text-gray-600 mb-6">
-            {wordsAvailable > 0 
+            {wordsAvailable > 0
               ? "מוכנים לסשן נוסף?"
               : "אין עוד מילים לתרגול כרגע. חזור מחר להמשיך ללמוד!"}
           </p>
@@ -354,71 +355,67 @@ function App() {
     );
   }*/
 
-  // Safety check: If no current word and not finished, show loading or start button
-  if (!currentWord && !isSessionFinished && !isLoading) {
+    if (!currentWord && !isSessionFinished) {
+      return (
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center py-4 px-4" dir="rtl">
+          <div className="w-full max-w-md text-center">
+            <p className="text-gray-600 mb-4">מכין את הסשן...</p>
+            <button
+              onClick={generateSession}
+              className="px-6 py-3 bg-primary text-white rounded-xl font-semibold hover:bg-orange-600 transition-colors"
+            >
+              התחל סשן
+            </button>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center py-4 px-4" dir="rtl">
-        <div className="w-full max-w-md text-center">
-          <p className="text-gray-600 mb-4">מכין את הסשן...</p>
-          <button
-            onClick={generateSession}
-            className="px-6 py-3 bg-primary text-white rounded-xl font-semibold hover:bg-orange-600 transition-colors"
-          >
-            התחל סשן
-          </button>
+        <div className="w-full max-w-md">
+          {currentWord && (
+            <Flashcard
+              word={currentWord}
+              currentIndex={currentPosition}
+              totalWords={sessionStartSize}
+              onEasy={handleEasy}
+              onHard={handleHard}
+              onSkip={handleSkip}
+              today={today}
+              rolling7={rolling7}
+              streak={streak}
+            />
+          )}
+
+          {showGoalCelebration && (
+            <DailyGoalBanner
+              goal={DAILY_GOAL}
+              onContinue={() => setShowGoalCelebration(false)}
+            />
+          )}
+
+          {isSessionFinished && !currentWord && sessionQueue.length === 0 && (
+            <SessionComplete
+              stats={sessionStats}
+              total={sessionStartSize}
+              wordsAvailable={getSessionWords(allWords, 10).length}
+              goalCompleted={goalCompletedOnLastWordRef.current}
+              onContinue={startNewSession}
+              onClose={goBackToDashboard}
+              onBackToDashboard={goBackToDashboard}
+            />
+          )}
         </div>
       </div>
     );
-  }
-
-
-  // Calculate progress - based on current session batch
-  // currentIndex: position in current batch (1-based)
-  // totalWords: total items in current batch (fixed at session start)
-
-
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-4 px-4" dir="rtl">
-      <div className="w-full max-w-md">
-      {currentWord && (
-        <Flashcard 
-  word={currentWord} 
-  currentIndex={currentPosition}
-  totalWords={sessionStartSize}
-  onEasy={handleEasy}
-  onHard={handleHard}
-  onSkip={handleSkip}
-  today={today}
-  rolling7={rolling7}
-  streak={streak}
-/>
-)}
-
-{showGoalCelebration && (
-  <DailyGoalBanner
-    goal={DAILY_GOAL}
-    onContinue={() => setShowGoalCelebration(false)}
-  />
-)}
-
-{isSessionFinished && !currentWord && sessionQueue.length === 0 && (
-  <SessionComplete
-    stats={sessionStats}
-    total={sessionStartSize}
-    wordsAvailable={getSessionWords(allWords, 10).length}
-    goalCompleted={goalCompletedOnLastWordRef.current}
-    onContinue={startNewSession}
-    onClose={goBackToDashboard}
-    onBackToDashboard={goBackToDashboard}
-  />
-)}
-      <footer className="text-center text-sm text-gray-400 mt-8 mb-2">
-        Built by David Millstein • 2026
-      </footer>
-      
-      </div>
-    </div>
+    <>
+      {renderScreen()}
+      <AppCredit />
+    </>
   );
 }
 
